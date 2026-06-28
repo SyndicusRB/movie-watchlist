@@ -144,8 +144,8 @@ img {
 
 nav h2:hover,
 nav h2:focus,
-#add-watchlist:hover,
-#add-watchlist:focus {
+.add-watchlist:hover,
+.add-watchlist:focus {
     cursor: pointer;
     color: orange;
 }

@@ -1,17 +1,24 @@
 // API key = 8e09bec1
 // Example: http://www.omdbapi.com/?i=tt3896198&apikey=8e09bec1
 
-const userSearch = document.getElementById("search-bar")
-const userWatchlist = []
-
 const searchBar = document.getElementById("search-bar")
+const userSearch = document.getElementById("search-bar")
 
-searchBar.addEventListener("keypress", e => {
-    if (e.key === "Enter") {
-        e.preventDefault()
-        renderSearch(userSearch.value)
-    }
-})
+export let userWatchlist = []
+let filmsFromUserWatchlist = JSON.parse(localStorage.getItem("Watchlist"))
+
+if (filmsFromUserWatchlist) {
+    userWatchlist = filmsFromUserWatchlist
+}
+
+// Event Listeners
+
+// searchBar.addEventListener("keypress", e => {
+//     if (e.key === "Enter") {
+//         e.preventDefault()
+//         renderSearch(userSearch.value)
+//     }
+// })
 
 document.addEventListener("click", e => {
     if (e.target.id === "search-btn") {
@@ -20,7 +27,13 @@ document.addEventListener("click", e => {
     }
 })
 
+document.addEventListener("click", e => {
+    if (e.target.dataset.addWatchlist) {
+        addToWatchlist(e.target.dataset.addWatchlist)
+    }
+})
 
+// Search and watchlist functions using OMDb API
 
 async function renderSearch(title) {
 
@@ -28,6 +41,7 @@ async function renderSearch(title) {
 
     const res = await fetch(`http://www.omdbapi.com/?s=${title}&type=movie&apikey=8e09bec1`)
     const data = await res.json()
+    console.log(data)
     
     if (data.Response === "True") {
         for (const item of data.Search) {        
@@ -47,7 +61,7 @@ async function renderSearch(title) {
                             <div class="media-info">
                                 <h4 id="runtime">${data.Runtime}</h4>
                                 <h4 id="genre">${data.Genre}</h4>
-                                <h4 id="add-watchlist"><span><i class="fa-solid fa-circle-plus"></i></span> Watchlist</h4>
+                                <h4 class="add-watchlist" id="${data.imdbID} "data-add-watchlist="${data.imdbID}"><span><i class="fa-solid fa-circle-plus"></i></span> Watchlist</h4>
                             </div>
                             <div class="media-synopsis">
                                 <p id="synopsis">${data.Plot}</p>
@@ -65,3 +79,14 @@ async function renderSearch(title) {
         document.getElementById("media-list").innerHTML = resultFeed
     }
 }
+
+async function addToWatchlist(film) {
+    const res = await fetch(`http://www.omdbapi.com/?i=${film}&apikey=8e09bec1`)
+    const data = await res.json()
+
+    userWatchlist.push(data)
+    console.log(userWatchlist)
+    localStorage.setItem("Watchlist", JSON.stringify(userWatchlist))
+    console.log(localStorage)
+}
+
