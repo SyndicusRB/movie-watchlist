@@ -4,6 +4,15 @@
 const userSearch = document.getElementById("search-bar")
 const userWatchlist = []
 
+const searchBar = document.getElementById("search-bar")
+
+searchBar.addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+        e.preventDefault()
+        renderSearch(userSearch.value)
+    }
+})
+
 document.addEventListener("click", e => {
     if (e.target.id === "search-btn") {
         renderSearch(userSearch.value)
@@ -38,7 +47,7 @@ async function renderSearch(title) {
                             <div class="media-info">
                                 <h4 id="runtime">${data.Runtime}</h4>
                                 <h4 id="genre">${data.Genre}</h4>
-                                <h4 id="add-watchlist">+ Watchlist</h4>
+                                <h4 id="add-watchlist"><span><i class="fa-solid fa-circle-plus"></i></span> Watchlist</h4>
                             </div>
                             <div class="media-synopsis">
                                 <p id="synopsis">${data.Plot}</p>
