@@ -19,8 +19,10 @@ nav {
     padding: 1em 3em;
 }
 
-nav h2 {
+nav a {
     margin-left: auto;
+    text-decoration: none;
+    color: #FFFFFF;
 }
 
 .search {

@@ -14,11 +14,14 @@ document.addEventListener("click", e => {
 
 
 async function renderSearch(title) {
-    let resultFeed = ""
+
+    let resultFeed = ``
+
     const res = await fetch(`http://www.omdbapi.com/?s=${title}&type=movie&apikey=8e09bec1`)
     const data = await res.json()
-
-    for (const item of data.Search) {        
+    
+    if (data.Response === "True") {
+        for (const item of data.Search) {        
         fetch(`http://www.omdbapi.com/?i=${item.imdbID}&apikey=8e09bec1`)
             .then(res => res.json())
             .then(data => {                
@@ -45,5 +48,11 @@ async function renderSearch(title) {
                 `
             document.getElementById("media-list").innerHTML = resultFeed
             })
-    }            
+        }
+    } else if (data.Response === "False") {
+        resultFeed = `
+            <h3 class="explore-text">Unable to find what you're looking for. Plesae try another search.</h3>
+        `
+        document.getElementById("media-list").innerHTML = resultFeed
+    }
 }
