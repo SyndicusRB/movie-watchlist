@@ -140,12 +140,19 @@ img {
     color: #DFDDDD;
 }
 
+.add-movies {
+    font-weight: 700;
+    text-decoration: none;
+}
+
 /* Pseudo-classes */
 
 nav h2:hover,
 nav h2:focus,
 .add-watchlist:hover,
-.add-watchlist:focus {
+.add-watchlist:focus,
+.add-movies:hover,
+.add-movies:focus {
     cursor: pointer;
     color: orange;
 }

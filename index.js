@@ -1,11 +1,8 @@
 // API key = 8e09bec1
 // Example: http://www.omdbapi.com/?i=tt3896198&apikey=8e09bec1
 
-const searchBar = document.getElementById("search-bar")
-const userSearch = document.getElementById("search-bar")
-
 export let userWatchlist = []
-let filmsFromUserWatchlist = JSON.parse(localStorage.getItem("Watchlist"))
+export let filmsFromUserWatchlist = JSON.parse(localStorage.getItem("Watchlist"))
 
 if (filmsFromUserWatchlist) {
     userWatchlist = filmsFromUserWatchlist
@@ -13,17 +10,16 @@ if (filmsFromUserWatchlist) {
 
 // Event Listeners
 
-// searchBar.addEventListener("keypress", e => {
-//     if (e.key === "Enter") {
-//         e.preventDefault()
-//         renderSearch(userSearch.value)
-//     }
-// })
+document.addEventListener("keypress", e => {
+    if (e.key === "Enter" && e.srcElement.id === "search-bar") {
+        e.preventDefault()
+        renderSearch(document.getElementById("search-bar").value)
+    }
+})
 
 document.addEventListener("click", e => {
     if (e.target.id === "search-btn") {
-        renderSearch(userSearch.value)
-        // console.log(userSearch.value)
+        renderSearch(document.getElementById("search-bar").value)
     }
 })
 
@@ -41,7 +37,7 @@ async function renderSearch(title) {
 
     const res = await fetch(`http://www.omdbapi.com/?s=${title}&type=movie&apikey=8e09bec1`)
     const data = await res.json()
-    console.log(data)
+    // console.log(data)
     
     if (data.Response === "True") {
         for (const item of data.Search) {        
@@ -74,7 +70,7 @@ async function renderSearch(title) {
         }
     } else if (data.Response === "False") {
         resultFeed = `
-            <h3 class="explore-text">Unable to find what you're looking for. Plesae try another search.</h3>
+            <h3 class="explore-text">Unable to find what you're looking for. Please try another search.</h3>
         `
         document.getElementById("media-list").innerHTML = resultFeed
     }
@@ -89,4 +85,3 @@ async function addToWatchlist(film) {
     localStorage.setItem("Watchlist", JSON.stringify(userWatchlist))
     console.log(localStorage)
 }
-

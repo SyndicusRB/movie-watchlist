@@ -1,8 +1,10 @@
 import { userWatchlist } from "./index.js"
+import { filmsFromUserWatchlist } from "./index.js"
 
 function renderWatchlist() {
     let resultFeed = ""
     console.log(userWatchlist)
+    console.log(localStorage)
     for (const item of userWatchlist) {
 
         resultFeed += `
@@ -18,7 +20,7 @@ function renderWatchlist() {
                     <div class="media-info">
                         <h4 id="runtime">${item.Runtime}</h4>
                         <h4 id="genre">${item.Genre}</h4>
-                        <h4 class="add-watchlist" id="${item.imdbID} "item-add-watchlist="${item.imdbID}"><span><i class="fa-solid fa-circle-plus"></i></span> Watchlist</h4>
+                        <h4 class="add-watchlist" id="${item.imdbID} "item-add-watchlist="${item.imdbID}"><span><i class="fa-solid fa-minus"></i></i></span> Remove</h4>
                     </div>
                     <div class="media-synopsis">
                         <p id="synopsis">${item.Plot}</p>
@@ -29,5 +31,4 @@ function renderWatchlist() {
         document.getElementById("watchlist").innerHTML = resultFeed
         }
 }
-
 renderWatchlist()
